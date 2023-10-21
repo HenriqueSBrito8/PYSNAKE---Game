@@ -1,13 +1,8 @@
 import tkinter as tk
 import subprocess
-import radio
-def tocar_pagode():
+from PIL import Image, ImageTk
 
-
-
-    pass
-
-def tocar_funk():
+def tocar_indie():
 
 
     pass
@@ -17,7 +12,7 @@ def tocar_rock():
 
     pass
 
-def tocar_sertanejo():
+def tocar_rap():
 
 
 
@@ -39,27 +34,51 @@ def iniciar_jogo():
 
 # Criar a janela principal
 janela = tk.Tk()
-janela.title("Music Snake")
+janela.title("SNAKEFY GAME")
 janela.geometry("800x600")
 janela.configure(bg="black")
+
+# Carregue uma label
+
+logo = Image.open("logo_snakefy.png")
+logo_tk = ImageTk.PhotoImage(logo)
+
+# Carregue a imagem para o botão
+rk = Image.open("button_rock.png")  # Substitua "nome_da_imagem.jpg" pelo nome da sua imagem
+rkie = ImageTk.PhotoImage(rk)
+
+ind = Image.open("button_indie.png")
+indi = ImageTk.PhotoImage(ind)
+
+rap = Image.open("button_rap.png")
+rp = ImageTk.PhotoImage(rap)
+
+pop = Image.open("button_pop.png")
+pp = ImageTk.PhotoImage(pop)
+
+jogar = Image.open("button_jogar.png")
+jg = ImageTk.PhotoImage(jogar)
+
 
 # Criar os botões com espaçamento
 espaco = 10  # Define o espaçamento entre os botões
 
-botao_pagode = tk.Button(janela, text="Tocar Pagode", fg="white", bg="black", command=tocar_pagode)
-botao_funk = tk.Button(janela, text="Tocar Funk", fg="white", bg="black", command=tocar_funk)
-botao_rock = tk.Button(janela, text="Tocar Rock", fg="white", bg="black", command=tocar_rock)
-botao_sertanejo = tk.Button(janela, text="Tocar Sertanejo", fg="white", bg="black", command=tocar_sertanejo)
-botao_pop = tk.Button(janela, text="Tocar Pop", fg="white", bg="black", command=tocar_pop)
-botao_iniciar = tk.Button(janela, text="Iniciar Jogo", fg="white", bg="black", command=iniciar_jogo)
+logotipo = tk.Label(janela, bg="black", image=logo_tk)
+button_rock = tk.Button(janela, image=rkie, bg="black", borderwidth=0, command=tocar_rock)
+button_indie = tk.Button(janela, image=indi, bg="black", borderwidth=0, command=tocar_indie)
+button_rap = tk.Button(janela, image=rp, bg="black", borderwidth=0, command=tocar_rap)
+button_pop = tk.Button(janela, image=pp, bg="black", borderwidth=0, command=tocar_pop)
+button_jogar = tk.Button(janela, image=jg, bg="black", borderwidth=0, command=iniciar_jogo)
 
-# Posicionar os botões com espaçamento usando o método pack()
-botao_pagode.pack(pady=espaco)
-botao_funk.pack(pady=espaco)
-botao_rock.pack(pady=espaco)
-botao_sertanejo.pack(pady=espaco)
-botao_pop.pack(pady=espaco)
-botao_iniciar.pack(pady=espaco)
+logotipo.pack(pady=espaco)
+button_rock.pack(pady=espaco)
+button_indie.pack(pady=espaco)
+button_rap.pack(pady=espaco)
+button_pop.pack(pady=espaco)
+button_jogar.pack(pady=espaco)
+
+
+
 
 # Iniciar o loop da interface gráfica
 janela.mainloop()
