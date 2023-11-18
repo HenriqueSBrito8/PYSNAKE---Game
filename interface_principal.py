@@ -5,7 +5,7 @@ from pygame import mixer
 class InterfacePrincipalApp:
     def __init__(self, root, nome):
         self.root = root
-        self.root.title("Boas-Vindas")
+        self.root.title("Snakefy Game")
         self.root.geometry("1280x920")
         self.root.configure(bg="black")
         mixer.init()
