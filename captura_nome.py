@@ -1,49 +1,59 @@
-import tkinter as tk
 import speech_recognition as sr
-from interface import InterfaceJogoSnake
+import tkinter as tk
 
 def capturar_nome():
     recognizer = sr.Recognizer()
 
-    with sr.Microphone() as source:
-        print("Fale seu nome...")
+    with sr.Microphone(device_index=1) as source:
+        print("Diga seu nome:")
         recognizer.adjust_for_ambient_noise(source)
         audio = recognizer.listen(source)
 
+    try:
+        nome = recognizer.recognize_google(audio, language='pt-BR')
+        print(f"Nome capturado: {nome}")
+        return nome
+    except sr.UnknownValueError:
+        print("Não foi possível entender o áudio.")
+        return None
+    except sr.RequestError as e:
+        print(f"Erro na requisição ao Google: {e}")
+        return None
+
+class CapturaNomeApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Captura de Nome")
+
+        self.label = tk.Label(root, text="Pressione o botão para capturar seu nome.")
+        self.label.pack()
+
+        self.button = tk.Button(root, text="Capturar Nome", command=self.capturar_nome)
+        self.button.pack()
+
+        # Atributo para armazenar o nome capturado
+        self.nome_capturado = None
+
+    def capturar_nome(self):
+        recognizer = sr.Recognizer()
+
+        with sr.Microphone() as source:
+            print("Diga seu nome:")
+            audio = recognizer.listen(source)
+
         try:
-            nome = recognizer.recognize_google(audio)
-            nome_var.set(nome)
-            print("Nome reconhecido:", nome)
+            nome = recognizer.recognize_google(audio, language='pt-BR')
+            print(f"Nome capturado: {nome}")
+            self.nome_capturado = nome
 
-            # Após o reconhecimento do nome, abra a interface do jogo Snake
-            abrir_interface_jogo_snake()
+            # Fechar a janela após capturar o nome
+            self.root.destroy()
         except sr.UnknownValueError:
-            print("Não foi possível reconhecer a fala.")
+            print("Não foi possível entender o áudio.")
         except sr.RequestError as e:
-            print("Erro na solicitação:", str(e))
+            print(f"Erro na requisição ao Google: {e}")
 
-def abrir_interface_jogo_snake():
-    nome = nome_var.get()
-
-    # Crie uma janela secundária para o jogo Snake
-    janela_jogo_snake = tk.Toplevel()
-    janela_jogo_snake.title("Jogo Snake")
-
-    # Crie uma instância da classe InterfaceJogoSnake
-    interface_snake = InterfaceJogoSnake(janela_jogo_snake, nome)
-
-# Criar a janela principal para capturar o nome
-janela_captura_nome = tk.Tk()
-janela_captura_nome.title("Captura de Nome")
-
-nome_var = tk.StringVar()
-
-label_nome = tk.Label(janela_captura_nome, text="Fale seu nome:")
-entry_nome = tk.Entry(janela_captura_nome, textvariable=nome_var)
-botao_capturar = tk.Button(janela_captura_nome, text="Capturar Nome", command=capturar_nome)
-
-label_nome.pack()
-entry_nome.pack()
-botao_capturar.pack()
-
-janela_captura_nome.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = CapturaNomeApp(root)
+    root.mainloop()
